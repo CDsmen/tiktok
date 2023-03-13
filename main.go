@@ -6,4 +6,6 @@ import(
 
 func main() {
 	dao.InitDB()
+	dao.InitRDB()
+	
 }

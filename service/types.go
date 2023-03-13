@@ -10,8 +10,8 @@ type Video struct {
 	Author        User   `json:"author" gorm:"-"`
 	PlayUrl       string `json:"play_url"`
 	CoverUrl      string `json:"cover_url"`
-	FavoriteCount int64  `json:"favorite_count"`
-	CommentCount  int64  `json:"comment_count"`
+	FavoriteCount int64  `json:"favorite_count" gorm:"-"`
+	CommentCount  int64  `json:"comment_count" gorm:"-"`
 	IsFavorite    bool   `json:"is_favorite"`
 	Title 		  string `json:"title"`
 
