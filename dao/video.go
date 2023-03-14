@@ -37,6 +37,7 @@ func Video_VsC(video_id int64) (int64, error) {
 	return commentCount, nil
 }
 
-func Video_add() {
-
+func Video_add(user_id int64, title string, playUrl string, coverUrl string) error{
+	err := DB.Exec("CALL add_video(?, ?, ?, ?)", user_id, title, playUrl, coverUrl).Error
+	return err
 }
