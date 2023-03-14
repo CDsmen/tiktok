@@ -24,28 +24,28 @@ func User_info(user_id int64, user interface{}) error {
 }
 
 func User_UsF(user_id int64) (int64, error) {
-	var t_f int64
-	err := DB.Raw("CALL get_t_f(?)", user_id).Scan(&t_f).Error
+	var totalFavorited int64
+	err := DB.Raw("CALL get_t_f(?)", user_id).Scan(&totalFavorited).Error
 	if err != nil {
 		return 0, err
 	}
-	return t_f, nil
+	return totalFavorited, nil
 }
 
 func User_UsV(user_id int64) (int64, error) {
-	var w_c int64
-	err := DB.Raw("CALL get_w_c(?)", user_id).Scan(&w_c).Error
+	var workCount int64
+	err := DB.Raw("CALL get_w_c(?)", user_id).Scan(&workCount).Error
 	if err != nil {
 		return 0, err
 	}
-	return w_c, nil
+	return workCount, nil
 }
 
 func User_U2F(user_id int64) (int64, error) {
-	var f_c int64
-	err := DB.Raw("CALL get_f_c(?)", user_id).Scan(&f_c).Error
+	var favoriteCount int64
+	err := DB.Raw("CALL get_f_c(?)", user_id).Scan(&favoriteCount).Error
 	if err != nil {
 		return 0, err
 	}
-	return f_c, nil
+	return favoriteCount, nil
 }

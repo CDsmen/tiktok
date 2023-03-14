@@ -10,3 +10,6 @@ func Favorite_del(user_id int64, video_id int64) error {
 	return err
 }
 
+func Favorite_list(user_id int64) error {
+	return nil
+}
