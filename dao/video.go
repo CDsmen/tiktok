@@ -1,11 +1,13 @@
 package dao
 
 func Feed(latestTime string, video interface{}) error {
-	return nil
+	err := DB.Raw("CALL feed(?)", latestTime).Scan(video).Error
+	return err
 }
 
-func Video_byU(user_id int64) error {
-	return nil
+func Video_byU(user_id int64, video interface{}) error {
+	err := DB.Raw("CALL list_video(?)", user_id).Scan(video).Error
+	return err
 }
 
 func Video_IsFavorite(user_id int64, video_id int64) (bool, error) {
