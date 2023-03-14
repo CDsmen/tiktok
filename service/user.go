@@ -67,18 +67,17 @@ func UserInfo(userid string, token string, user *User) error {
 	}
 
 	// 解析token
-	claim, err := myjwt.VerifyAction(token)
+	_, err = myjwt.VerifyAction(token)
 	if err != nil {
 		return err
 	}
 
-	// 鉴权不通过
-	if strconv.FormatInt(claim.UserID, 10) != userid {
+	// 获取user信息
+	userid_int64, err := strconv.ParseInt(userid,10,64)
+	if err != nil {
 		return err
 	}
-
-	// 获取user信息
-	err = dao.User_info(claim.UserID, user)
+	err = dao.User_info(userid_int64, user)
 	if err != nil {
 		return err
 	}

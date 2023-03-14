@@ -1,6 +1,6 @@
 package controller
 
-import(
+import (
 	"tiktok/service"
 )
 
@@ -17,4 +17,13 @@ type UserLoginResponse struct {
 type UserResponse struct {
 	Response
 	User service.User `json:"user"`
+}
+type CommentListResponse struct {
+	Response
+	CommentList []service.Comment `json:"comment_list,omitempty"`
+}
+
+type CommentActionResponse struct {
+	Response
+	Comment service.Comment `json:"comment,omitempty"`
 }
