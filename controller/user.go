@@ -23,7 +23,7 @@ func Login(c *gin.Context) {
 	} else {
 		if userId == 0 {
 			c.JSON(http.StatusOK, UserLoginResponse{
-				Response: Response{StatusCode: 1, StatusMsg: "User not exist"},
+				Response: Response{StatusCode: 1, StatusMsg: "User not exist Or password err"},
 			})
 			return
 		} else {
