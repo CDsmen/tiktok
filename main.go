@@ -1,13 +1,15 @@
 package main
 
-import(
+import (
 	"tiktok/dao"
+	"tiktok/myRedis"
+
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	dao.InitDB()
-	dao.InitRDB()
+	myRedis.InitRDB()
 
 	r := gin.Default()
 	initRouter(r)

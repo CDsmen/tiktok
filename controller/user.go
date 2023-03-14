@@ -47,3 +47,24 @@ func Register(c *gin.Context) {
 		return
 	}
 }
+func UserInfo(c *gin.Context) {
+	userid := c.Query("user_id")
+	token := c.Query("token")
+
+	var user service.User
+
+	err := service.UserInfo(userid, token, &user)
+	if err != nil {
+		c.JSON(http.StatusOK, UserResponse{
+			Response: Response{StatusCode: 1, StatusMsg: "Get UserInfo err"},
+		})
+		return
+	}else{
+		c.JSON(http.StatusOK, UserResponse{
+			Response: Response{StatusCode: 0},
+			User:     user,
+		})
+		return
+	}
+
+}
