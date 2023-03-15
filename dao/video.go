@@ -37,7 +37,16 @@ func Video_VsC(video_id int64) (int64, error) {
 	return commentCount, nil
 }
 
-func Video_add(user_id int64, title string, playUrl string, coverUrl string) error{
+func Video_add(user_id int64, title string, playUrl string, coverUrl string) error {
 	err := DB.Exec("CALL add_video(?, ?, ?, ?)", user_id, title, playUrl, coverUrl).Error
 	return err
+}
+
+func Video_Vid2Uid(video_id int64) (int64, error) {
+	var user_id int64
+	err := DB.Raw("CALL Vid2Uid(?)", video_id).Scan(&user_id).Error
+	if err != nil {
+		return 0, err
+	}
+	return user_id, nil
 }
