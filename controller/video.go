@@ -8,6 +8,34 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func Publish(c *gin.Context) {
+	token := c.PostForm("token")
+	title := c.PostForm("title")
+
+	// 获取上传的文件
+	file, err := c.FormFile("data")
+	if err != nil {
+		c.JSON(http.StatusOK, Response{
+			StatusCode: 1,
+			StatusMsg:  "获取上传的文件 error",
+		})
+		return
+	}
+
+	err = service.AddVideo(title, token, file)
+	if err != nil {
+		c.JSON(http.StatusOK, Response{
+			StatusCode: 1,
+			StatusMsg:  "Publish error",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, Response{
+		StatusCode: 0,
+		StatusMsg:  file.Filename + " uploaded successfully",
+	})
+}
+
 func Feed(c *gin.Context) {
 	latestTime := c.Query("latest_time")
 	token := c.Query("token")
