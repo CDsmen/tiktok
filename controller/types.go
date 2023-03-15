@@ -32,3 +32,9 @@ type VideoListResponse struct {
 	Response
 	VideoList []service.Video `json:"video_list"`
 }
+
+type FeedResponse struct {
+	Response
+	VideoList []service.Video `json:"video_list,omitempty"`
+	NextTime  int64           `json:"next_time,omitempty"`
+}

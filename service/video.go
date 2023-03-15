@@ -5,7 +5,45 @@ import (
 	"tiktok/dao"
 	"tiktok/myRedis"
 	"tiktok/myjwt"
+	"time"
 )
+
+func Feed(latestTime string, token string, videoList *[]Video) (int64, error) {
+	// token不存在
+	err := myjwt.FindToken(token)
+	if err != nil {
+		return 0, err
+	}
+	// 解析token
+	_, err = myjwt.VerifyAction(token)
+	if err != nil {
+		return 0, err
+	}
+
+	if latestTime == "0" || latestTime == "" {
+		latestTime = strconv.FormatInt(time.Now().Unix(), 10)
+	}
+	if len([]rune(latestTime)) > 11 {
+		latestTime = latestTime[0:10]
+	}
+
+	err = dao.Feed(latestTime, videoList)
+	if err != nil {
+		return 0, err
+	}
+
+	nextTime := time.Now().Unix()
+	for id := range *videoList {
+		err = FullVideo(&(*videoList)[id], token)
+		if err != nil {
+			return 0, err
+		}
+		if (*videoList)[id].CreateTime < nextTime {
+			nextTime = (*videoList)[id].CreateTime
+		}
+	}
+	return nextTime, nil
+}
 
 func ListPublish(user_id int64, token string, videoList *[]Video) error {
 	// token不存在
