@@ -5,8 +5,8 @@ func Comment_add(video_id int64, user_id int64, text string, comment interface{}
 	return err
 }
 
-func Comment_del(comment_id int64) error {
-	err := DB.Exec("CALL del_comment(?)", comment_id).Error
+func Comment_del(comment_id int64,videoid *int64) error {
+	err := DB.Raw("CALL del_comment(?)", comment_id).Scan(videoid).Error
 	return err
 }
 
