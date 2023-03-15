@@ -4,7 +4,35 @@ import (
 	"strconv"
 	"tiktok/dao"
 	"tiktok/myRedis"
+	"tiktok/myjwt"
 )
+
+func ListPublish(user_id int64, token string, videoList *[]Video) error {
+	// token不存在
+	err := myjwt.FindToken(token)
+	if err != nil {
+		return err
+	}
+
+	// 解析token
+	_, err = myjwt.VerifyAction(token)
+	if err != nil {
+		return err
+	}
+
+	err = dao.Video_list(user_id, videoList)
+	if err != nil {
+		return err
+	}
+
+	for id := range *videoList {
+		err = FullVideo(&(*videoList)[id], token)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
 func FullVideo(video *Video, token string) error {
 	err := UserInfo(strconv.FormatInt(video.Userid, 10), token, &(*video).Author)
