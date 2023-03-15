@@ -122,3 +122,30 @@ func DelFavorite(video_id int64, token string) error {
 	}
 	return nil
 }
+
+func ListFavorite(user_id int64, token string, videoList *[]Video) error {
+	// token不存在
+	err := myjwt.FindToken(token)
+	if err != nil {
+		return err
+	}
+
+	// 解析token
+	_, err = myjwt.VerifyAction(token)
+	if err != nil {
+		return err
+	}
+
+	err = dao.Favorite_list(user_id, videoList)
+	if err != nil {
+		return err
+	}
+
+	for id := range *videoList {
+		err = FullVideo(&(*videoList)[id], token)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

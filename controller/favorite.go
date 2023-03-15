@@ -38,3 +38,29 @@ func FavoriteAction(c *gin.Context) {
 		c.JSON(http.StatusOK, Response{StatusCode: 1, StatusMsg: "FavoriteAction Type err"})
 	}
 }
+
+func FavoriteList(c *gin.Context) {
+	userid := c.Query("user_id")
+	token := c.Query("token")
+
+	userid_int64, err := strconv.ParseInt(userid, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusOK, UserResponse{
+			Response: Response{StatusCode: 1, StatusMsg: "userid err"},
+		})
+		return
+	}
+
+	var videoList []service.Video
+	err = service.ListFavorite(userid_int64, token, &videoList)
+	if err != nil {
+		c.JSON(http.StatusOK, VideoListResponse{
+			Response: Response{StatusCode: 1, StatusMsg: "list_favorite error"},
+		})
+		return
+	}
+	c.JSON(http.StatusOK, VideoListResponse{
+		Response:  Response{StatusCode: 0},
+		VideoList: videoList,
+	})
+}

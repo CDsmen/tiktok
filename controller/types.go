@@ -27,3 +27,8 @@ type CommentActionResponse struct {
 	Response
 	Comment service.Comment `json:"comment,omitempty"`
 }
+
+type VideoListResponse struct {
+	Response
+	VideoList []service.Video `json:"video_list"`
+}
