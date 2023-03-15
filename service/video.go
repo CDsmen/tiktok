@@ -158,13 +158,25 @@ func ListPublish(user_id int64, token string, videoList *[]Video) error {
 }
 
 func FullVideo(video *Video, token string) error {
-	err := UserInfo(strconv.FormatInt(video.Userid, 10), token, &(*video).Author)
+	// token不存在
+	err := myjwt.FindToken(token)
+	if err != nil {
+		return err
+	}
+
+	// 解析token
+	claim, err := myjwt.VerifyAction(token)
+	if err != nil {
+		return err
+	}
+
+	err = UserInfo(strconv.FormatInt(video.Userid, 10), token, &(*video).Author)
 	if err != nil {
 		return err
 	}
 
 	// 补充IsFavorite
-	video.IsFavorite, err = dao.Video_IsFavorite(video.Userid, video.Id)
+	video.IsFavorite, err = dao.Video_IsFavorite(claim.UserID, video.Id)
 	if err != nil {
 		return err
 	}
@@ -183,7 +195,7 @@ func FullVideo(video *Video, token string) error {
 		if err != nil {
 			return err
 		}
-		myRedis.RdbVsF.Set(myRedis.Ctx, strconv.FormatInt(video.Id, 10), video.FavoriteCount, 0)
+		myRedis.RdbVsF.Set(myRedis.Ctx, strconv.FormatInt(video.Id, 10), video.FavoriteCount, 300*time.Second)
 	}
 
 	// 补充CommentCount
@@ -200,7 +212,7 @@ func FullVideo(video *Video, token string) error {
 		if err != nil {
 			return err
 		}
-		myRedis.RdbVsC.Set(myRedis.Ctx, strconv.FormatInt(video.Id, 10), video.CommentCount, 0)
+		myRedis.RdbVsC.Set(myRedis.Ctx, strconv.FormatInt(video.Id, 10), video.CommentCount, 300*time.Second)
 	}
 
 	return nil

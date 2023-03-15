@@ -97,7 +97,7 @@ func UserInfo(userid string, token string, user *User) error {
 			return err
 		}
 		user.TotalFavorited = strconv.FormatInt(totalFavorited, 10)
-		myRedis.RdbUsF.Set(myRedis.Ctx, userid, totalFavorited, 0)
+		myRedis.RdbUsF.Set(myRedis.Ctx, userid, totalFavorited, 300*time.Second)
 	}
 
 	// 获取WorkCount
@@ -115,7 +115,7 @@ func UserInfo(userid string, token string, user *User) error {
 			return err
 		}
 		user.WorkCount = workCount
-		myRedis.RdbUsV.Set(myRedis.Ctx, userid, workCount, 0)
+		myRedis.RdbUsV.Set(myRedis.Ctx, userid, workCount, 300*time.Second)
 	}
 
 	// 获取FavoriteCount
@@ -133,7 +133,7 @@ func UserInfo(userid string, token string, user *User) error {
 			return err
 		}
 		user.FavoriteCount = favoriteCount
-		myRedis.RdbU2F.Set(myRedis.Ctx, userid, favoriteCount, 0)
+		myRedis.RdbU2F.Set(myRedis.Ctx, userid, favoriteCount, 300*time.Second)
 	}
 
 	return nil

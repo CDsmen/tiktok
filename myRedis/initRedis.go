@@ -18,7 +18,7 @@ func InitRDB() {
 	log.Println("InitRDB start")
 
 	RdbVsF = redis.NewClient(&redis.Options{
-		Addr:     "172.17.235.73:6379",
+		Addr:     "172.21.45.117:6379",
 		Password: "",
 		DB:       1,
 	})
@@ -28,7 +28,7 @@ func InitRDB() {
 	}
 
 	RdbVsC = redis.NewClient(&redis.Options{
-		Addr:     "172.17.235.73:6379",
+		Addr:     "172.21.45.117:6379",
 		Password: "",
 		DB:       2,
 	})
@@ -38,7 +38,7 @@ func InitRDB() {
 	}
 
 	RdbUsF = redis.NewClient(&redis.Options{
-		Addr:     "172.17.235.73:6379",
+		Addr:     "172.21.45.117:6379",
 		Password: "",
 		DB:       3,
 	})
@@ -48,7 +48,7 @@ func InitRDB() {
 	}
 
 	RdbUsV = redis.NewClient(&redis.Options{
-		Addr:     "172.17.235.73:6379",
+		Addr:     "172.21.45.117:6379",
 		Password: "",
 		DB:       4,
 	})
@@ -58,7 +58,7 @@ func InitRDB() {
 	}
 
 	RdbU2F = redis.NewClient(&redis.Options{
-		Addr:     "172.17.235.73:6379",
+		Addr:     "172.21.45.117:6379",
 		Password: "",
 		DB:       5,
 	})

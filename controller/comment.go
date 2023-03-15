@@ -55,9 +55,9 @@ func CommentAction(c *gin.Context) {
 			})
 			return
 		} else {
-			c.JSON(http.StatusOK, CommentListResponse{
-				Response:    Response{StatusCode: 0},
-				CommentList: []service.Comment{comment},
+			c.JSON(http.StatusOK, CommentActionResponse{
+				Response: Response{StatusCode: 0, StatusMsg: "Publishing succeeded"},
+				Comment:  comment,
 			})
 			return
 		}
